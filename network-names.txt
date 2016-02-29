@@ -10,7 +10,7 @@ Expires: September 1, 2016               University of California Irvine
 
 
                              Network Names
-                     draft-wood-icnrg-networknames
+                              networknames
 
 Abstract
 

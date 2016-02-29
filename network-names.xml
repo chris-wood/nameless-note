@@ -9,7 +9,7 @@
 <?rfc sortrefs="yes"?>
 <?rfc symrefs="yes"?>
 
-<rfc ipr="trust200902" docName="draft-wood-icnrg-networknames" category="info">
+<rfc ipr="trust200902" docName="networknames" category="info">
 
   <front>
     <title abbrev="NetworkNames">Network Names</title>

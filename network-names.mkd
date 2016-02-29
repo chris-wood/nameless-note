@@ -1,7 +1,7 @@
 ---
 title: Network Names
 abbrev: NetworkNames
-docname: draft-wood-icnrg-networknames
+docname: networknames
 date: 2015-2-29
 category: info
 
