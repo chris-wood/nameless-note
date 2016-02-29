@@ -1,0 +1,336 @@
+
+
+
+
+ICNRG Working Group                                             C. Ghali
+Internet-Draft                                                 G. Tsudik
+Intended status: Informational                                   C. Wood
+Expires: September 1, 2016               University of California Irvine
+                                                       February 29, 2016
+
+
+                             Network Names
+                     draft-wood-icnrg-networknames
+
+Abstract
+
+   We describe a scheme for "network names" in CCN and related ICN
+   architectures.  Network names are representations for standard
+   application names that are based on hash functions.  Their purpose is
+   to reduce the network workload, enforce uniformly sized names, and
+   remove plaintext names from the network layer.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at http://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on September 1, 2016.
+
+Copyright Notice
+
+   Copyright (c) 2016 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (http://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
+
+
+
+
+Ghali, et al.           Expires September 1, 2016               [Page 1]
+
+Internet-Draft                NetworkNames                 February 2016
+
+
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+   2.  Motivation  . . . . . . . . . . . . . . . . . . . . . . . . .   2
+   3.  Network Names . . . . . . . . . . . . . . . . . . . . . . . .   3
+     3.1.  Hash Function Criteria  . . . . . . . . . . . . . . . . .   4
+     3.2.  Packet Format . . . . . . . . . . . . . . . . . . . . . .   4
+   4.  Forwarder Implications  . . . . . . . . . . . . . . . . . . .   4
+   5.  Invertible Network Names  . . . . . . . . . . . . . . . . . .   5
+   6.  Experimental Analysis . . . . . . . . . . . . . . . . . . . .   5
+   7.  Normative References  . . . . . . . . . . . . . . . . . . . .   6
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   6
+
+1.  Introduction
+
+   Names in CCN are hierarchical URIs formatted according to the CCNx
+   URI naming scheme [LCI].  The names are carried verbatim in both
+   Interests and Content Objects (with the exception of nameless
+   objects) [SEMANTICS].  In this note, we make a case for a
+   distinguished type of name in CCN wherein _application names_
+   formatted according to [LCI] are transformed to _network names_ that
+   are carried in network packets.  In this memo, we present the
+   motivation for this new type of name and provide one transformation
+   scheme to map application to network names.  We also discuss the
+   forwarder implications and necessary changes to the request and
+   response matching algorithm.
+
+2.  Motivation
+
+   Currently, the only utility CCN names in Interests afford to the
+   network (i.e., forwarders) is to serve as a locator for the desired
+   Content Object.  The semantic meaning of a name, as decided by the
+   application, is of no consequence to a forwarder.  Names are opaque
+   locators used to route Interests towards some authoritative source
+   for the corresponding Content Objects.  Names in Content Objects are
+   only used to match against a PIT entry to forward the message to
+   downstream forwarders.  In summary, application semantics have no use
+   in the data plane of the network.  Thus, the application
+   representation of a name is not needed to enable messages to be
+   correctly forwarded.  We therefore seek an alternative representation
+   that is more friendly to the network.
+
+
+
+
+
+
+
+Ghali, et al.           Expires September 1, 2016               [Page 2]
+
+Internet-Draft                NetworkNames                 February 2016
+
+
+3.  Network Names
+
+   Let N = [N1, N2, ..., Nk] be a CCN name as per [LCI] with k name
+   segments.  For example, the name
+
+       /edu/uci/ics/woodc1
+
+   is equivalent to the vector
+
+       [edu, uci, ics, woodc1]
+
+   According to the latest CCN specifications [LCI], an Interest
+   carrying this name would have the following TLV-encoded name in the
+   Interest packet.  (We use S-expressions with the length field omitted
+   for simplicity of presentation.)
+
+   (T_NAME
+       (T_NAMESEGMENT "edu")
+       (T_NAMESEGMENT "uci")
+       (T_NAMESEGMENT "ics")
+       (T_NAMESEGMENT "woodc1")
+   )
+
+   In the proposed network name scheme, each name segment would replaced
+   by a hash digest.  Specifically, the i-th name segment will be
+   replaced with a hash digest based on the 1,2,...,i name segments.
+   Formally, we denote this as follows:
+
+   N1' = H(N1)
+   N2' = H(N1 || N2)
+   N3' = H(N1 || N2 || N3)
+   ...
+   Ni' = H(N1 || ... || Ni)
+   ...
+   Nk' = H(N1 || ... || Nk)
+
+   H is a hash function which we will define later.  Using this
+   construction, the network name N' for a given application name N is
+   represented as N' = [N1', N2', ..., Nk'].
+
+   In addition to this network name, we also require that packets with
+   names carry a _name fingerprint_ Np, computed as follows:
+
+       Np = CRH(N)
+
+   where CRH is a collision resistant hash function such as SHA256.
+
+
+
+
+
+Ghali, et al.           Expires September 1, 2016               [Page 3]
+
+Internet-Draft                NetworkNames                 February 2016
+
+
+   With a suitably chosen H, the relationship between N and N' forms a
+   bijection.
+
+3.1.  Hash Function Criteria
+
+   Since the name is only used for forwarding purposes, it is not
+   required that H be a cryptographic hash function.  However, it is
+   required for the name fingerprint function to be a cryptography hash
+   function.  We mandate that this function be the same of that which is
+   used to compute the ContentObjectHashRestriction that is specified in
+   [SEMANTICS].
+
+3.2.  Packet Format
+
+   The network name and fingerprint are represented in the packets as
+   follows.
+
+   (T_NAME
+       (T_NAMESEGMENT N1')
+       ...
+       (T_NAMESEGMENT N2')
+       (T_NAMEFINGERPRINT Np)
+   )
+
+   Contrary to the current encoding outlined in [SEMANTICS], network
+   names have a fixed size based on the H.  Therefore, we do not need to
+   encode the length of in each name segment block.  This saves 2 bytes
+   on average for each name component.
+
+   In particular, let D be the digest size for H and Dp be the
+   fingerprint size of CRH.  For a name of length L, the number of name
+   segments |N'| can computed as:
+
+       |N'| = (L - Dp) / (D + 2)   # 2 is for the T byte in each segment
+
+   The byte offset Bi for the i-th name segment Ni' is computed as:
+
+       Bi = (D + 2) * i
+
+4.  Forwarder Implications
+
+   Network names can be used for routing just as standard application
+   names are used in [SEMANTICS].  FIBs must be populated with network
+   names manually or by the routing protocol.  However, what does change
+   is what is stored in the FIB and how Content Object responses are
+   matched to Interest requests.  Currently, Content Objects with names
+   only match Interests with names if their names are identical.
+   Therefore, when matching a Content Object with an Interest stored in
+
+
+
+Ghali, et al.           Expires September 1, 2016               [Page 4]
+
+Internet-Draft                NetworkNames                 February 2016
+
+
+   a PIT entry, a match is only said to occur if the Interest name
+   fingerprint matches the Content Object name fingerprint.  Since these
+   are computed by CRH (from which collisions occur with negligible
+   probability), this is no different from comparing the standard
+   application names based on exact match.
+
+5.  Invertible Network Names
+
+   Since we use a hash function to compute N' and Np, one concern is
+   that N would not be recoverable since hash functions are (in this
+   context) one-way functions.  However, consider the cases when one
+   might need to recover N from N' and Np.  Inversion is only necessary
+   when there's application data in the name, i.e., there is some data
+   that the producer needs to use to produce a result.  Were this not
+   the case then an Interest could be satisfied by a network cache.
+   This implies that (a) the producer already generated the _same_
+   content for another consumer who issued the _same request_ and (b)
+   the result will not change from the producer (assuming identical
+   requests yield identical response).  Thus, we conclude that
+   application data should _not_ exist in the name and should reside in
+   the Payload of an Interest.  The Payload ID, which is the hash of the
+   Payload field in an Interest, is still reflected in the name N and
+   N', and therefore also Np, so as to give N' sufficient randomness to
+   avoid being satisfied by a cache.
+
+   In summary, we conclude by observing that Interests convey one of two
+   requests:
+
+   1.  Requests for content that already exists.  The name is the
+       complete locator and identifier of the content.
+
+   2.  Requests for content that will be generated on-demand by the
+       producer.  The name is only the locator for the content and the
+       Interest Payload contains data to be used by the producer to
+       provide the content.
+
+   Our network naming scheme permits both types of requests while
+   providing better separation between locators and identifiers.
+
+6.  Experimental Analysis
+
+   TODO: run the code to determine how much we save TODO: compute
+   entropy of URIs as they exist today
+
+
+
+
+
+
+
+
+Ghali, et al.           Expires September 1, 2016               [Page 5]
+
+Internet-Draft                NetworkNames                 February 2016
+
+
+7.  Normative References
+
+   [LCI]      PARC, Inc, ., "Labeled Content Information", n.d.,
+              <https://tools.ietf.org/html/draft-mosko-icnrg-
+              ccnxlabeledcontent-01>.
+
+   [SEMANTICS]
+              PARC, Inc, . and . PARC, Inc, "CCNx Messages in TLV
+              Format", n.d., <https://datatracker.ietf.org/doc/draft-
+              irtf-icnrg-ccnxmessages/>.
+
+Authors' Addresses
+
+   Cesar Ghali
+   University of California Irvine
+
+   Email: cghali@uci.edu
+
+
+   Gene Tsudik
+   University of California Irvine
+
+   Email: gts@ics.uci.edu
+
+
+   Christopher A. Wood
+   University of California Irvine
+
+   Email: woodc1@uci.edu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Ghali, et al.           Expires September 1, 2016               [Page 6]

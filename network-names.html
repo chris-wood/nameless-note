@@ -1,0 +1,629 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+  <title>Network Names</title>
+
+  <style type="text/css" title="Xml2Rfc (sans serif)">
+  /*<![CDATA[*/
+	  a {
+	  text-decoration: none;
+	  }
+      /* info code from SantaKlauss at http://www.madaboutstyle.com/tooltip2.html */
+      a.info {
+          /* This is the key. */
+          position: relative;
+          z-index: 24;
+          text-decoration: none;
+      }
+      a.info:hover {
+          z-index: 25;
+          color: #FFF; background-color: #900;
+      }
+      a.info span { display: none; }
+      a.info:hover span.info {
+          /* The span will display just on :hover state. */
+          display: block;
+          position: absolute;
+          font-size: smaller;
+          top: 2em; left: -5em; width: 15em;
+          padding: 2px; border: 1px solid #333;
+          color: #900; background-color: #EEE;
+          text-align: left;
+      }
+	  a.smpl {
+	  color: black;
+	  }
+	  a:hover {
+	  text-decoration: underline;
+	  }
+	  a:active {
+	  text-decoration: underline;
+	  }
+	  address {
+	  margin-top: 1em;
+	  margin-left: 2em;
+	  font-style: normal;
+	  }
+	  body {
+	  color: black;
+	  font-family: verdana, helvetica, arial, sans-serif;
+	  font-size: 10pt;
+	  max-width: 55em;
+	  
+	  }
+	  cite {
+	  font-style: normal;
+	  }
+	  dd {
+	  margin-right: 2em;
+	  }
+	  dl {
+	  margin-left: 2em;
+	  }
+	
+	  ul.empty {
+	  list-style-type: none;
+	  }
+	  ul.empty li {
+	  margin-top: .5em;
+	  }
+	  dl p {
+	  margin-left: 0em;
+	  }
+	  dt {
+	  margin-top: .5em;
+	  }
+	  h1 {
+	  font-size: 14pt;
+	  line-height: 21pt;
+	  page-break-after: avoid;
+	  }
+	  h1.np {
+	  page-break-before: always;
+	  }
+	  h1 a {
+	  color: #333333;
+	  }
+	  h2 {
+	  font-size: 12pt;
+	  line-height: 15pt;
+	  page-break-after: avoid;
+	  }
+	  h3, h4, h5, h6 {
+	  font-size: 10pt;
+	  page-break-after: avoid;
+	  }
+	  h2 a, h3 a, h4 a, h5 a, h6 a {
+	  color: black;
+	  }
+	  img {
+	  margin-left: 3em;
+	  }
+	  li {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  ol {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  ol p {
+	  margin-left: 0em;
+	  }
+	  p {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  pre {
+	  margin-left: 3em;
+	  background-color: lightyellow;
+	  padding: .25em;
+	  }
+	  pre.text2 {
+	  border-style: dotted;
+	  border-width: 1px;
+	  background-color: #f0f0f0;
+	  width: 69em;
+	  }
+	  pre.inline {
+	  background-color: white;
+	  padding: 0em;
+	  }
+	  pre.text {
+	  border-style: dotted;
+	  border-width: 1px;
+	  background-color: #f8f8f8;
+	  width: 69em;
+	  }
+	  pre.drawing {
+	  border-style: solid;
+	  border-width: 1px;
+	  background-color: #f8f8f8;
+	  padding: 2em;
+	  }
+	  table {
+	  margin-left: 2em;
+	  }
+	  table.tt {
+	  vertical-align: top;
+	  }
+	  table.full {
+	  border-style: outset;
+	  border-width: 1px;
+	  }
+	  table.headers {
+	  border-style: outset;
+	  border-width: 1px;
+	  }
+	  table.tt td {
+	  vertical-align: top;
+	  }
+	  table.full td {
+	  border-style: inset;
+	  border-width: 1px;
+	  }
+	  table.tt th {
+	  vertical-align: top;
+	  }
+	  table.full th {
+	  border-style: inset;
+	  border-width: 1px;
+	  }
+	  table.headers th {
+	  border-style: none none inset none;
+	  border-width: 1px;
+	  }
+	  table.left {
+	  margin-right: auto;
+	  }
+	  table.right {
+	  margin-left: auto;
+	  }
+	  table.center {
+	  margin-left: auto;
+	  margin-right: auto;
+	  }
+	  caption {
+	  caption-side: bottom;
+	  font-weight: bold;
+	  font-size: 9pt;
+	  margin-top: .5em;
+	  }
+	
+	  table.header {
+	  border-spacing: 1px;
+	  width: 95%;
+	  font-size: 10pt;
+	  color: white;
+	  }
+	  td.top {
+	  vertical-align: top;
+	  }
+	  td.topnowrap {
+	  vertical-align: top;
+	  white-space: nowrap; 
+	  }
+	  table.header td {
+	  background-color: gray;
+	  width: 50%;
+	  }
+	  table.header a {
+	  color: white;
+	  }
+	  td.reference {
+	  vertical-align: top;
+	  white-space: nowrap;
+	  padding-right: 1em;
+	  }
+	  thead {
+	  display:table-header-group;
+	  }
+	  ul.toc, ul.toc ul {
+	  list-style: none;
+	  margin-left: 1.5em;
+	  margin-right: 0em;
+	  padding-left: 0em;
+	  }
+	  ul.toc li {
+	  line-height: 150%;
+	  font-weight: bold;
+	  font-size: 10pt;
+	  margin-left: 0em;
+	  margin-right: 0em;
+	  }
+	  ul.toc li li {
+	  line-height: normal;
+	  font-weight: normal;
+	  font-size: 9pt;
+	  margin-left: 0em;
+	  margin-right: 0em;
+	  }
+	  li.excluded {
+	  font-size: 0pt;
+	  }
+	  ul p {
+	  margin-left: 0em;
+	  }
+	
+	  .comment {
+	  background-color: yellow;
+	  }
+	  .center {
+	  text-align: center;
+	  }
+	  .error {
+	  color: red;
+	  font-style: italic;
+	  font-weight: bold;
+	  }
+	  .figure {
+	  font-weight: bold;
+	  text-align: center;
+	  font-size: 9pt;
+	  }
+	  .filename {
+	  color: #333333;
+	  font-weight: bold;
+	  font-size: 12pt;
+	  line-height: 21pt;
+	  text-align: center;
+	  }
+	  .fn {
+	  font-weight: bold;
+	  }
+	  .hidden {
+	  display: none;
+	  }
+	  .left {
+	  text-align: left;
+	  }
+	  .right {
+	  text-align: right;
+	  }
+	  .title {
+	  color: #990000;
+	  font-size: 18pt;
+	  line-height: 18pt;
+	  font-weight: bold;
+	  text-align: center;
+	  margin-top: 36pt;
+	  }
+	  .vcardline {
+	  display: block;
+	  }
+	  .warning {
+	  font-size: 14pt;
+	  background-color: yellow;
+	  }
+	
+	
+	  @media print {
+	  .noprint {
+		display: none;
+	  }
+	
+	  a {
+		color: black;
+		text-decoration: none;
+	  }
+	
+	  table.header {
+		width: 90%;
+	  }
+	
+	  td.header {
+		width: 50%;
+		color: black;
+		background-color: white;
+		vertical-align: top;
+		font-size: 12pt;
+	  }
+	
+	  ul.toc a::after {
+		content: leader('.') target-counter(attr(href), page);
+	  }
+	
+	  ul.ind li li a {
+		content: target-counter(attr(href), page);
+	  }
+	
+	  .print2col {
+		column-count: 2;
+		-moz-column-count: 2;
+		column-fill: auto;
+	  }
+	  }
+	
+	  @page {
+	  @top-left {
+		   content: "Internet-Draft"; 
+	  } 
+	  @top-right {
+		   content: "December 2010"; 
+	  } 
+	  @top-center {
+		   content: "Abbreviated Title";
+	  } 
+	  @bottom-left {
+		   content: "Doe"; 
+	  } 
+	  @bottom-center {
+		   content: "Expires June 2011"; 
+	  } 
+	  @bottom-right {
+		   content: "[Page " counter(page) "]"; 
+	  } 
+	  }
+	
+	  @page:first { 
+		@top-left {
+		  content: normal;
+		}
+		@top-right {
+		  content: normal;
+		}
+		@top-center {
+		  content: normal;
+		}
+	  }
+  /*]]>*/
+  </style>
+
+  <link href="#rfc.toc" rel="Contents"/>
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction"/>
+<link href="#rfc.section.2" rel="Chapter" title="2 Motivation"/>
+<link href="#rfc.section.3" rel="Chapter" title="3 Network Names"/>
+<link href="#rfc.section.3.1" rel="Chapter" title="3.1 Hash Function Criteria"/>
+<link href="#rfc.section.3.2" rel="Chapter" title="3.2 Packet Format"/>
+<link href="#rfc.section.4" rel="Chapter" title="4 Forwarder Implications"/>
+<link href="#rfc.section.5" rel="Chapter" title="5 Invertible Network Names"/>
+<link href="#rfc.section.6" rel="Chapter" title="6 Experimental Analysis"/>
+<link href="#rfc.references" rel="Chapter" title="7 Normative References"/>
+<link href="#rfc.authors" rel="Chapter"/>
+
+
+  <meta name="generator" content="xml2rfc version 2.5.1 - http://tools.ietf.org/tools/xml2rfc" />
+  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
+
+  <meta name="dct.creator" content="Ghali, C., Tsudik, G., and C. Wood" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-wood-icnrg-networknames" />
+  <meta name="dct.issued" scheme="ISO8601" content="2016-2-29" />
+  <meta name="dct.abstract" content="We describe a scheme for &#8220;network names&#8221; in CCN and related ICN architectures.  Network names are representations for standard application names that are based on hash functions. Their purpose is to reduce the network workload, enforce uniformly sized names, and remove plaintext names from the network layer." />
+  <meta name="description" content="We describe a scheme for &#8220;network names&#8221; in CCN and related ICN architectures.  Network names are representations for standard application names that are based on hash functions. Their purpose is to reduce the network workload, enforce uniformly sized names, and remove plaintext names from the network layer." />
+
+</head>
+
+<body>
+
+  <table class="header">
+    <tbody>
+    
+    	<tr>
+  <td class="left">ICNRG Working Group</td>
+  <td class="right">C. Ghali</td>
+</tr>
+<tr>
+  <td class="left">Internet-Draft</td>
+  <td class="right">G. Tsudik</td>
+</tr>
+<tr>
+  <td class="left">Intended status: Informational</td>
+  <td class="right">C. Wood</td>
+</tr>
+<tr>
+  <td class="left">Expires: September 1, 2016</td>
+  <td class="right">University of California Irvine</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">February 29, 2016</td>
+</tr>
+
+    	
+    </tbody>
+  </table>
+
+  <p class="title">Network Names<br />
+  <span class="filename">draft-wood-icnrg-networknames</span></p>
+  
+  <h1 id="rfc.abstract">
+  <a href="#rfc.abstract">Abstract</a>
+</h1>
+<p>We describe a scheme for &#8220;network names&#8221; in CCN and related ICN architectures.  Network names are representations for standard application names that are based on hash functions. Their purpose is to reduce the network workload, enforce uniformly sized names, and remove plaintext names from the network layer.</p>
+<h1 id="rfc.status">
+  <a href="#rfc.status">Status of This Memo</a>
+</h1>
+<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
+<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
+<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
+<p>This Internet-Draft will expire on September 1, 2016.</p>
+<h1 id="rfc.copyrightnotice">
+  <a href="#rfc.copyrightnotice">Copyright Notice</a>
+</h1>
+<p>Copyright (c) 2016 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (http://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
+
+  
+  <hr class="noprint" />
+  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
+  <ul class="toc">
+
+  	<li>1.   <a href="#rfc.section.1">Introduction</a></li>
+<li>2.   <a href="#rfc.section.2">Motivation</a></li>
+<li>3.   <a href="#rfc.section.3">Network Names</a></li>
+<ul><li>3.1.   <a href="#rfc.section.3.1">Hash Function Criteria</a></li>
+<li>3.2.   <a href="#rfc.section.3.2">Packet Format</a></li>
+</ul><li>4.   <a href="#rfc.section.4">Forwarder Implications</a></li>
+<li>5.   <a href="#rfc.section.5">Invertible Network Names</a></li>
+<li>6.   <a href="#rfc.section.6">Experimental Analysis</a></li>
+<li>7.   <a href="#rfc.references">Normative References</a></li>
+<li><a href="#rfc.authors">Authors' Addresses</a></li>
+
+
+  </ul>
+
+  <h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> <a href="#introduction" id="introduction">Introduction</a></h1>
+<p id="rfc.section.1.p.1">Names in CCN are hierarchical URIs formatted according to the CCNx URI naming scheme <a href="#LCI">[LCI]</a>.  The names are carried verbatim in both Interests and Content Objects (with the exception of nameless objects) <a href="#SEMANTICS">[SEMANTICS]</a>. In this note, we make a case for a distinguished type of name in CCN wherein <em>application names</em> formatted according to <a href="#LCI">[LCI]</a> are transformed to <em>network names</em> that are carried in network packets. In this memo, we present the motivation for this new type of name and provide one transformation scheme to map application to network names. We also discuss the forwarder implications and necessary changes to the request and response matching algorithm.</p>
+<h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> <a href="#motivation" id="motivation">Motivation</a></h1>
+<p id="rfc.section.2.p.1">Currently, the only utility CCN names in Interests afford to the network (i.e., forwarders) is to serve as a locator for the desired Content Object. The semantic meaning of a name, as decided by the application, is of no consequence to a forwarder. Names are opaque locators used to route Interests towards some authoritative source for the corresponding Content Objects. Names in Content Objects are only used to match against a PIT entry to forward the message to downstream forwarders. In summary, application semantics have no use in the data plane of the network. Thus, the application representation of a name is not needed to enable messages to be correctly forwarded. We therefore seek an alternative representation that is more friendly to the network.</p>
+<h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> <a href="#network-names" id="network-names">Network Names</a></h1>
+<p id="rfc.section.3.p.1">Let N = [N1, N2, &#8230;, Nk] be a CCN name as per <a href="#LCI">[LCI]</a> with k name segments. For example, the name</p>
+<pre>
+    /edu/uci/ics/woodc1
+</pre>
+<p id="rfc.section.3.p.2">is equivalent to the vector</p>
+<pre>
+    [edu, uci, ics, woodc1]
+</pre>
+<p id="rfc.section.3.p.3">According to the latest CCN specifications <a href="#LCI">[LCI]</a>, an Interest carrying this name would have the following TLV-encoded name in the Interest packet. (We use S-expressions with the length field omitted for simplicity of presentation.)</p>
+<pre>
+(T_NAME
+    (T_NAMESEGMENT "edu")
+    (T_NAMESEGMENT "uci")
+    (T_NAMESEGMENT "ics")
+    (T_NAMESEGMENT "woodc1")
+)
+</pre>
+<p id="rfc.section.3.p.4">In the proposed network name scheme, each name segment would replaced by a hash digest. Specifically, the i-th name segment will be replaced with a hash digest based on the 1,2,&#8230;,i name segments. Formally, we denote this as follows:</p>
+<pre>
+N1' = H(N1)
+N2' = H(N1 || N2)
+N3' = H(N1 || N2 || N3)
+...
+Ni' = H(N1 || ... || Ni)
+...
+Nk' = H(N1 || ... || Nk)
+</pre>
+<p id="rfc.section.3.p.5">H is a hash function which we will define later. Using this construction, the network name N&#8217; for a given application name N is represented as N&#8217; = [N1&#8217;, N2&#8217;, &#8230;, Nk&#8217;].</p>
+<p id="rfc.section.3.p.6">In addition to this network name, we also require that packets with names carry a <em>name fingerprint</em> Np, computed as follows:</p>
+<pre>
+    Np = CRH(N)
+</pre>
+<p id="rfc.section.3.p.7">where CRH is a collision resistant hash function such as SHA256.</p>
+<p id="rfc.section.3.p.8">With a suitably chosen H, the relationship between N and N&#8217; forms a bijection.</p>
+<h1 id="rfc.section.3.1"><a href="#rfc.section.3.1">3.1.</a> <a href="#hash-function-criteria" id="hash-function-criteria">Hash Function Criteria</a></h1>
+<p id="rfc.section.3.1.p.1">Since the name is only used for forwarding purposes, it is not required that H be a cryptographic hash function. However, it is required for the name fingerprint function to be a cryptography hash function. We mandate that this function be the same of that which is used to compute the ContentObjectHashRestriction that is specified in <a href="#SEMANTICS">[SEMANTICS]</a>.</p>
+<h1 id="rfc.section.3.2"><a href="#rfc.section.3.2">3.2.</a> <a href="#packet-format" id="packet-format">Packet Format</a></h1>
+<p id="rfc.section.3.2.p.1">The network name and fingerprint are represented in the packets as follows.</p>
+<pre>
+(T_NAME
+    (T_NAMESEGMENT N1')
+    ...
+    (T_NAMESEGMENT N2')
+    (T_NAMEFINGERPRINT Np)
+)
+</pre>
+<p id="rfc.section.3.2.p.2">Contrary to the current encoding outlined in <a href="#SEMANTICS">[SEMANTICS]</a>, network names have a fixed size based on the H. Therefore, we do not need to encode the length of in each name segment block. This saves 2 bytes on average for each name component.</p>
+<p id="rfc.section.3.2.p.3">In particular, let D be the digest size for H and Dp be the fingerprint size of CRH. For a name of length L, the number of name segments |N&#8217;| can computed as:</p>
+<pre>
+    |N'| = (L - Dp) / (D + 2)   # 2 is for the T byte in each segment
+</pre>
+<p id="rfc.section.3.2.p.4">The byte offset Bi for the i-th name segment Ni&#8217; is computed as:</p>
+<pre>
+    Bi = (D + 2) * i
+</pre>
+<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#forwarder-implications" id="forwarder-implications">Forwarder Implications</a></h1>
+<p id="rfc.section.4.p.1">Network names can be used for routing just as standard application names are used in <a href="#SEMANTICS">[SEMANTICS]</a>. FIBs must be populated with network names manually or by the routing protocol.  However, what does change is what is stored in the FIB and how Content Object responses are matched to Interest requests. Currently, Content Objects with names only match Interests with names if their names are identical. Therefore, when matching a Content Object with an Interest stored in a PIT entry, a match is only said to occur if the Interest name fingerprint matches the Content Object name fingerprint. Since these are computed by CRH (from which collisions occur with negligible probability), this is no different from comparing the standard application names based on exact match.</p>
+<h1 id="rfc.section.5"><a href="#rfc.section.5">5.</a> <a href="#invertible-network-names" id="invertible-network-names">Invertible Network Names</a></h1>
+<p id="rfc.section.5.p.1">Since we use a hash function to compute N&#8217; and Np, one concern is that N would not be recoverable since hash functions are (in this context) one-way functions.  However, consider the cases when one might need to recover N from N&#8217; and Np.  Inversion is only necessary when there&#8217;s application data in the name, i.e., there is some data that the producer needs to use to produce a result. Were this not the case then an Interest could be satisfied by a network cache. This implies that (a) the producer already generated the <em>same</em> content for another consumer who issued the <em>same request</em> and (b) the result will not change from the producer (assuming identical requests yield identical response).  Thus, we conclude that application data should <em>not</em> exist in the name and should reside in the Payload of an Interest. The Payload ID, which is the hash of the Payload field in an Interest, is still reflected in the name N and N&#8217;, and therefore also Np, so as to give N&#8217; sufficient randomness to avoid being satisfied by a cache.</p>
+<p id="rfc.section.5.p.2">In summary, we conclude by observing that Interests convey one of two requests:</p>
+<p/>
+
+<ol>
+  <li>Requests for content that already exists. The name is the complete locator and identifier of the content.</li>
+  <li>Requests for content that will be generated on-demand by the producer. The name is only the locator for the content and the Interest Payload contains data to be used by the producer to provide the content.</li>
+</ol>
+<p id="rfc.section.5.p.4">Our network naming scheme permits both types of requests while providing better separation between locators and identifiers.</p>
+<h1 id="rfc.section.6"><a href="#rfc.section.6">6.</a> <a href="#experimental-analysis" id="experimental-analysis">Experimental Analysis</a></h1>
+<p id="rfc.section.6.p.1">TODO: run the code to determine how much we save TODO: compute entropy of URIs as they exist today</p>
+<h1 id="rfc.references"><a href="#rfc.references">7.</a> Normative References</h1>
+<table>
+  <tbody>
+    <tr>
+      <td class="reference">
+        <b id="LCI">[LCI]</b>
+      </td>
+      <td class="top"><a>PARC, Inc, .</a>, "<a href="https://tools.ietf.org/html/draft-mosko-icnrg-ccnxlabeledcontent-01">Labeled Content Information</a>", n.d..</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="SEMANTICS">[SEMANTICS]</b>
+      </td>
+      <td class="top"><a>PARC, Inc, .</a> and <a>. PARC, Inc</a>, "<a href="https://datatracker.ietf.org/doc/draft-irtf-icnrg-ccnxmessages/">CCNx Messages in TLV Format</a>", n.d..</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.authors">
+  <a href="#rfc.authors">Authors' Addresses</a>
+</h1>
+<div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Cesar Ghali</span> 
+	  <span class="n hidden">
+		<span class="family-name">Ghali</span>
+	  </span>
+	</span>
+	<span class="org vcardline">University of California Irvine</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:cghali@uci.edu">cghali@uci.edu</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Gene Tsudik</span> 
+	  <span class="n hidden">
+		<span class="family-name">Tsudik</span>
+	  </span>
+	</span>
+	<span class="org vcardline">University of California Irvine</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:gts@ics.uci.edu">gts@ics.uci.edu</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Christopher A. Wood</span> 
+	  <span class="n hidden">
+		<span class="family-name">Wood</span>
+	  </span>
+	</span>
+	<span class="org vcardline">University of California Irvine</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:woodc1@uci.edu">woodc1@uci.edu</a></span>
+
+  </address>
+</div>
+
+</body>
+</html>
