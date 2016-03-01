@@ -143,7 +143,7 @@ With a suitably chosen H, the relationship between N and N' forms a bijection.
 
 Since the name is only used for forwarding purposes, it is not required that
 H be a cryptographic hash function. However, it is required for the name fingerprint
-function to be a cryptography hash function. We mandate that this function be the
+function to be a cryptographic hash function. We mandate that this function be the
 same of that which is used to compute the ContentObjectHashRestriction that
 is specified in {{SEMANTICS}}.
 
