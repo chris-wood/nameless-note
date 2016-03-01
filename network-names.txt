@@ -101,7 +101,7 @@ Table of Contents
    in the data plane of the network.  Thus, the application
    representation of a name is not needed to enable messages to be
    correctly forwarded.  We therefore seek an alternative representation
-   that is more friendly to the network.
+   that is more network-friendly.
 
 
 
@@ -137,9 +137,9 @@ Internet-Draft                NetworkNames                 February 2016
        (T_NAMESEGMENT "woodc1")
    )
 
-   In the proposed network name scheme, each name segment would replaced
-   by a hash digest.  Specifically, the i-th name segment will be
-   replaced with a hash digest based on the 1,2,...,i name segments.
+   In the proposed network name scheme, each name segment would be
+   replaced by a hash digest.  Specifically, the i-th name segment will
+   be replaced with a hash digest based on the 1,2,...,i name segments.
    Formally, we denote this as follows:
 
    N1' = H(N1)
@@ -150,7 +150,7 @@ Internet-Draft                NetworkNames                 February 2016
    ...
    Nk' = H(N1 || ... || Nk)
 
-   H is a hash function which we will define later.  Using this
+   where H is a hash function which we will define later.  Using this
    construction, the network name N' for a given application name N is
    represented as N' = [N1', N2', ..., Nk'].
 
@@ -196,8 +196,8 @@ Internet-Draft                NetworkNames                 February 2016
 
    Contrary to the current encoding outlined in [SEMANTICS], network
    names have a fixed size based on the H.  Therefore, we do not need to
-   encode the length of in each name segment block.  This saves 2 bytes
-   on average for each name component.
+   encode the length of each name segment block.  This saves 2 bytes for
+   each name component.
 
    In particular, let D be the digest size for H and Dp be the
    fingerprint size of CRH.  For a name of length L, the number of name
@@ -211,13 +211,13 @@ Internet-Draft                NetworkNames                 February 2016
 
 4.  Forwarder Implications
 
-   Network names can be used for routing just as standard application
-   names are used in [SEMANTICS].  FIBs must be populated with network
-   names manually or by the routing protocol.  However, what does change
-   is what is stored in the FIB and how Content Object responses are
-   matched to Interest requests.  Currently, Content Objects with names
-   only match Interests with names if their names are identical.
-   Therefore, when matching a Content Object with an Interest stored in
+   Network names can be used for routing the say way standard
+   application names are used in [SEMANTICS].  FIBs must be populated
+   with network names manually or by the routing protocol.  However,
+   what changes is the information stored in the FIB and how Content
+   Object responses are matched to Interest requests.  Currently,
+   Content Objects with names only match Interests with names if their
+   names are identical.  Therefore, when matching a Content Object with
 
 
 
@@ -226,11 +226,11 @@ Ghali, et al.           Expires September 1, 2016               [Page 4]
 Internet-Draft                NetworkNames                 February 2016
 
 
-   a PIT entry, a match is only said to occur if the Interest name
-   fingerprint matches the Content Object name fingerprint.  Since these
-   are computed by CRH (from which collisions occur with negligible
-   probability), this is no different from comparing the standard
-   application names based on exact match.
+   an Interest stored in a PIT entry, a match is only said to occur if
+   the Interest name fingerprint matches the Content Object name
+   fingerprint.  Since these are computed by CRH (from which collisions
+   occur with negligible probability), this is no different from
+   comparing the standard application names based on exact match.
 
 5.  Invertible Network Names
 
