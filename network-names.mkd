@@ -220,5 +220,19 @@ separation between locators and identifiers.
 
 # Experimental Analysis
 
+We run several experiments to study the overhead of hash based names as compared
+to human-readable names.
+
+Current CCNx implementation
+uses TLV-based format for human-readable names. In this case, each name component is prepended by $2$ bytes
+specifying its type, and $2$ bytes specifying its length. Thus, a total of $4$ bytes
+extra are required per components. If names are haseh-based, as described above,
+name components will have fixed and pre-determined size. Therefore, only their type is
+required, i.e., $2$ extra bytes. We compare the size of both human-readable and hash-based names
+using $50$GB of URLs collected from \textcolor{red}{where did the URL came from Chris?} \cite{reference}.
+
+TODO: add the figures of the above experiment.
+
 TODO: run the code to determine how much we save
+
 TODO: compute entropy of URIs as they exist today

@@ -5,8 +5,8 @@
 ICNRG Working Group                                             C. Ghali
 Internet-Draft                                                 G. Tsudik
 Intended status: Informational                                   C. Wood
-Expires: September 2, 2016               University of California Irvine
-                                                           March 1, 2016
+Expires: September 10, 2016              University of California Irvine
+                                                           March 9, 2016
 
 
                              Network Names
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 2, 2016.
+   This Internet-Draft will expire on September 10, 2016.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Ghali, et al.           Expires September 2, 2016               [Page 1]
+Ghali, et al.          Expires September 10, 2016               [Page 1]
 
 Internet-Draft                NetworkNames                    March 2016
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Ghali, et al.           Expires September 2, 2016               [Page 2]
+Ghali, et al.          Expires September 10, 2016               [Page 2]
 
 Internet-Draft                NetworkNames                    March 2016
 
@@ -165,7 +165,7 @@ Internet-Draft                NetworkNames                    March 2016
 
 
 
-Ghali, et al.           Expires September 2, 2016               [Page 3]
+Ghali, et al.          Expires September 10, 2016               [Page 3]
 
 Internet-Draft                NetworkNames                    March 2016
 
@@ -221,7 +221,7 @@ Internet-Draft                NetworkNames                    March 2016
 
 
 
-Ghali, et al.           Expires September 2, 2016               [Page 4]
+Ghali, et al.          Expires September 10, 2016               [Page 4]
 
 Internet-Draft                NetworkNames                    March 2016
 
@@ -267,20 +267,32 @@ Internet-Draft                NetworkNames                    March 2016
 
 6.  Experimental Analysis
 
-   TODO: run the code to determine how much we save TODO: compute
-   entropy of URIs as they exist today
+   We run several experiments to study the overhead of hash based names
+   as compared to human-readable names.
+
+   Current CCNx implementation uses TLV-based format for human-readable
+   names.  In this case, each name component is prepended by $2$ bytes
+   specifying its type, and $2$ bytes specifying its length.  Thus, a
+   total of $4$ bytes extra are required per components.  If names are
 
 
 
-
-
-
-
-
-Ghali, et al.           Expires September 2, 2016               [Page 5]
+Ghali, et al.          Expires September 10, 2016               [Page 5]
 
 Internet-Draft                NetworkNames                    March 2016
 
+
+   haseh-based, as described above, name components will have fixed and
+   pre-determined size.  Therefore, only their type is required, i.e.,
+   $2$ extra bytes.  We compare the size of both human-readable and
+   hash-based names using $50$GB of URLs collected from
+   \textcolor{red}{where did the URL came from Chris?} \cite{reference}.
+
+   TODO: add the figures of the above experiment.
+
+   TODO: run the code to determine how much we save
+
+   TODO: compute entropy of URIs as they exist today
 
 7.  Normative References
 
@@ -321,16 +333,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-Ghali, et al.           Expires September 2, 2016               [Page 6]
+Ghali, et al.          Expires September 10, 2016               [Page 6]
