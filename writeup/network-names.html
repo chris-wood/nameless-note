@@ -391,7 +391,7 @@
 
   <meta name="dct.creator" content="Ghali, C., Tsudik, G., and C. Wood" />
   <meta name="dct.identifier" content="urn:ietf:id:networknames" />
-  <meta name="dct.issued" scheme="ISO8601" content="2016-3-1" />
+  <meta name="dct.issued" scheme="ISO8601" content="2016-3-9" />
   <meta name="dct.abstract" content="We describe a scheme for &#8220;network names&#8221; in CCN and related ICN architectures.  Network names are representations for standard application names that are based on hash functions. Their purpose is to reduce the network workload, enforce uniformly sized names, and remove plaintext names from the network layer." />
   <meta name="description" content="We describe a scheme for &#8220;network names&#8221; in CCN and related ICN architectures.  Network names are representations for standard application names that are based on hash functions. Their purpose is to reduce the network workload, enforce uniformly sized names, and remove plaintext names from the network layer." />
 
@@ -415,12 +415,12 @@
   <td class="right">C. Wood</td>
 </tr>
 <tr>
-  <td class="left">Expires: September 2, 2016</td>
+  <td class="left">Expires: September 10, 2016</td>
   <td class="right">University of California Irvine</td>
 </tr>
 <tr>
   <td class="left"></td>
-  <td class="right">March 1, 2016</td>
+  <td class="right">March 9, 2016</td>
 </tr>
 
     	
@@ -440,7 +440,7 @@
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on September 2, 2016.</p>
+<p>This Internet-Draft will expire on September 10, 2016.</p>
 <h1 id="rfc.copyrightnotice">
   <a href="#rfc.copyrightnotice">Copyright Notice</a>
 </h1>
@@ -539,7 +539,11 @@ Nk' = H(N1 || ... || Nk)
 </ol>
 <p id="rfc.section.5.p.4">Our network naming scheme permits both types of requests while providing better separation between locators and identifiers.</p>
 <h1 id="rfc.section.6"><a href="#rfc.section.6">6.</a> <a href="#experimental-analysis" id="experimental-analysis">Experimental Analysis</a></h1>
-<p id="rfc.section.6.p.1">TODO: run the code to determine how much we save TODO: compute entropy of URIs as they exist today</p>
+<p id="rfc.section.6.p.1">We run several experiments to study the overhead of hash based names as compared to human-readable names.</p>
+<p id="rfc.section.6.p.2">Current CCNx implementation uses TLV-based format for human-readable names. In this case, each name component is prepended by $2$ bytes specifying its type, and $2$ bytes specifying its length. Thus, a total of $4$ bytes extra are required per components. If names are haseh-based, as described above, name components will have fixed and pre-determined size. Therefore, only their type is required, i.e., $2$ extra bytes. We compare the size of both human-readable and hash-based names using $50$GB of URLs collected from \textcolor{red}{where did the URL came from Chris?} \cite{reference}.</p>
+<p id="rfc.section.6.p.3">TODO: add the figures of the above experiment.</p>
+<p id="rfc.section.6.p.4">TODO: run the code to determine how much we save</p>
+<p id="rfc.section.6.p.5">TODO: compute entropy of URIs as they exist today</p>
 <h1 id="rfc.references"><a href="#rfc.references">7.</a> Normative References</h1>
 <table>
   <tbody>
