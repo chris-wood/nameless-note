@@ -14,34 +14,46 @@
 #include <stdio.h>
 #include <ctype.h>
 
-PARCBufferComposer *
-readLine(FILE *fp)
+static PARCBufferComposer *
+_readLine(FILE *fp, PARCBufferComposer *composer)
 {
-    PARCBufferComposer *composer = parcBufferComposer_Create();
     char curr = fgetc(fp);
     while ((isalnum(curr) || curr == ':' || curr == '/' || curr == '.' ||
             curr == '_' || curr == '(' || curr == ')' || curr == '[' ||
             curr == ']' || curr == '-' || curr == '%' || curr == '+' ||
             curr == '=' || curr == ';' || curr == '$' || curr == '\'') && curr != EOF) {
-        parcBufferComposer_PutChar(composer, curr);
+
+        if (curr == '%') {
+            // pass
+        } else if (curr == '=') {
+            parcBufferComposer_PutChar(composer, '%');
+            parcBufferComposer_PutChar(composer, '3');
+            parcBufferComposer_PutChar(composer, 'D');
+        } else {
+            parcBufferComposer_PutChar(composer, curr);
+        }
+
         curr = fgetc(fp);
     }
+
     return composer;
 }
 
 void usage() {
-    fprintf(stderr, "usage: hashing_overhead <uri_file>\n");
+    fprintf(stderr, "usage: hashing_overhead <uri_file> <number of lines>\n");
     fprintf(stderr, "   - uri_file: A file that contains a list of CCNx URIs -- one per line\n");
+    fprintf(stderr, "   - number of lines: The number of lines to process in the URI file\n");
 }
 
 int main(int argc, char **argv)
 {
-    if (argc != 2) {
+    if (argc != 3) {
         usage();
         exit(-1);
     }
 
     char *fname = argv[1];
+    size_t numLines = atol(argv[2]);
     FILE *file = fopen(fname, "r");
     if (file == NULL) {
         perror("Could not open file");
@@ -49,51 +61,112 @@ int main(int argc, char **argv)
         exit(-1);
     }
 
+    // char *s1 = "ccnx:/com/reunion/affiliates/ads/ActivityUpdate/now_null_pic.gif";
+    // char *s1 = "ccnx:/cat/super3/www/img/pers_2.gif";
+    // char *s2 = "ccnx:/ar/com/grupopayne/www/archivo/07/0701/070108/Resources/printer1a.gif";
+    // CCNxName *n1 = ccnxName_CreateFromCString(s1);
+    // CCNxName *n2 = ccnxName_CreateFromCString(s2);
+    //
+    // PARCBufferComposer *c1 = parcBufferComposer_Create();
+    // for (size_t i = 0; i < ccnxName_GetSegmentCount(n1); i++) {
+    //     CCNxNameSegment *segment = ccnxName_GetSegment(n1, i);
+    //     if (ccnxNameSegment_Length(segment) > 0) {
+    //         ccnxNameSegment_BuildString(segment, c1);
+    //     }
+    // }
+    //
+    // PARCBufferComposer *c2 = parcBufferComposer_Create();
+    // for (size_t i = 0; i < ccnxName_GetSegmentCount(n2); i++) {
+    //     CCNxNameSegment *segment = ccnxName_GetSegment(n2, i);
+    //     if (ccnxNameSegment_Length(segment) > 0) {
+    //         ccnxNameSegment_BuildString(segment, c2);
+    //     }
+    // }
+
     size_t num = 0;
+    size_t numSkipped = 0;
     do {
-        PARCBufferComposer *composer = readLine(file);
+        PARCBufferComposer *composer = _readLine(file, parcBufferComposer_Create());
         PARCBuffer *bufferString = parcBufferComposer_ProduceBuffer(composer);
-        if (parcBuffer_Remaining(bufferString) == 0) {
+        parcBufferComposer_Release(&composer);
+
+        if (num == numLines) {
+            fprintf(stderr, "Done.\n");
             break;
         }
 
-        char *string = parcBuffer_ToString(bufferString);
-        parcBufferComposer_Release(&composer);
+        if (parcBuffer_Remaining(bufferString) == 0) {
+            parcBuffer_Release(&bufferString);
+            continue;
+        }
 
-        fprintf(stderr, "Read: %s\n", string);
+        char *string = parcBuffer_ToString(bufferString);
+        parcBuffer_Release(&bufferString);
+
+        if (strstr(string, "lci:/") == NULL || strstr(string, "ccnx:/") == NULL) {
+            PARCBufferComposer *newComposer = parcBufferComposer_Create();
+
+            parcBufferComposer_Format(newComposer, "ccnx:/%s", string);
+            PARCBuffer *newBuffer = parcBufferComposer_ProduceBuffer(newComposer);
+            parcBufferComposer_Release(&newComposer);
+
+            parcMemory_Deallocate(&string);
+            string = parcBuffer_ToString(newBuffer);
+            parcBuffer_Release(&newBuffer);
+        }
+
+        //fprintf(stderr, "Read: %s\n", string);
 
         // Hash each name
         CCNxName *name = ccnxName_CreateFromCString(string);
-        for (size_t i = 0; i < ccnxName_GetSegmentCount(name); i++) {
-            PARCBufferComposer *composer = parcBufferComposer_Create();
+        if (name != NULL) {
+            for (size_t i = 0; i < ccnxName_GetSegmentCount(name); i++) {
+                PARCBufferComposer *composer = parcBufferComposer_Create();
 
-            PARCStopwatch *timer = parcStopwatch_Create();
-            parcStopwatch_Start(timer);
+                PARCStopwatch *timer = parcStopwatch_Create();
+                parcStopwatch_Start(timer);
 
-            uint64_t startBuildTime = parcStopwatch_ElapsedTimeNanos(timer);
-            for (size_t j = 0; j <= i; j++) {
-                CCNxNameSegment *segment = ccnxName_GetSegment(name, j);
-                ccnxNameSegment_BuildString(segment, composer);
+                uint64_t startBuildTime = parcStopwatch_ElapsedTimeNanos(timer);
+                for (size_t j = 0; j <= i; j++) {
+                    CCNxNameSegment *segment = ccnxName_GetSegment(name, j);
+                    if (ccnxNameSegment_Length(segment) > 0) {
+                        ccnxNameSegment_BuildString(segment, composer);
+                    }
+                }
+
+                PARCBuffer *input = parcBufferComposer_ProduceBuffer(composer);
+                uint64_t endBuildTime = parcStopwatch_ElapsedTimeNanos(timer);
+
+                PARCCryptoHasher *digester = parcCryptoHasher_Create(PARC_HASH_SHA256);
+                parcCryptoHasher_Init(digester);
+
+                uint64_t startHashTime = parcStopwatch_ElapsedTimeNanos(timer);
+                parcCryptoHasher_UpdateBuffer(digester, input);
+                PARCCryptoHash *digestTest = parcCryptoHasher_Finalize(digester);
+                uint64_t endHashTime = parcStopwatch_ElapsedTimeNanos(timer);
+
+                uint64_t totalTime = (endHashTime - startHashTime) + (endBuildTime - startBuildTime);
+
+                parcCryptoHasher_Release(&digester);
+                parcStopwatch_Release(&timer);
+
+                printf("%zu,%zu,%zu,%zu\n", num, i, parcBuffer_Remaining(input), totalTime);
+
+                parcCryptoHash_Release(&digestTest);
+                parcBuffer_Release(&input);
             }
 
-            PARCBuffer *input = parcBufferComposer_ProduceBuffer(composer);
-            uint64_t endBuildTime = parcStopwatch_ElapsedTimeNanos(timer);
-
-            PARCCryptoHasher *digester = parcCryptoHasher_Create(PARC_HASH_SHA256);
-            parcCryptoHasher_Init(digester);
-
-            uint64_t startHashTime = parcStopwatch_ElapsedTimeNanos(timer);
-            parcCryptoHasher_UpdateBuffer(digester, input);
-            PARCCryptoHash *digestTest = parcCryptoHasher_Finalize(digester);
-            uint64_t endHashTime = parcStopwatch_ElapsedTimeNanos(timer);
-
-            uint64_t totalTime = (endHashTime - startHashTime) + (endBuildTime - startBuildTime);
-
-            printf("%zu,%zu,%zu,%zu\n", num, i, parcBuffer_Remaining(input), totalTime);
+            ccnxName_Release(&name);
+        } else {
+            numSkipped++;
         }
+
+        parcMemory_Deallocate(&string);
 
         num++;
     } while (true);
+
+    fprintf(stderr, "Skipped: %zu\n", numSkipped);
 
     return 0;
 }
