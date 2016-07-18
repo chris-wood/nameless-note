@@ -5,8 +5,8 @@
 ICNRG Working Group                                             C. Ghali
 Internet-Draft                                                 G. Tsudik
 Intended status: Informational                                   C. Wood
-Expires: September 10, 2016              University of California Irvine
-                                                           March 9, 2016
+Expires: January 8, 2017                 University of California Irvine
+                                                            July 7, 2016
 
 
                              Network Names
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 10, 2016.
+   This Internet-Draft will expire on January 8, 2017.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Ghali, et al.          Expires September 10, 2016               [Page 1]
+Ghali, et al.            Expires January 8, 2017                [Page 1]
 
-Internet-Draft                NetworkNames                    March 2016
+Internet-Draft                NetworkNames                     July 2016
 
 
    the Trust Legal Provisions and are provided without warranty as
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Ghali, et al.          Expires September 10, 2016               [Page 2]
+Ghali, et al.            Expires January 8, 2017                [Page 2]
 
-Internet-Draft                NetworkNames                    March 2016
+Internet-Draft                NetworkNames                     July 2016
 
 
 3.  Network Names
@@ -165,9 +165,9 @@ Internet-Draft                NetworkNames                    March 2016
 
 
 
-Ghali, et al.          Expires September 10, 2016               [Page 3]
+Ghali, et al.            Expires January 8, 2017                [Page 3]
 
-Internet-Draft                NetworkNames                    March 2016
+Internet-Draft                NetworkNames                     July 2016
 
 
    With a suitably chosen H, the relationship between N and N' forms a
@@ -221,9 +221,9 @@ Internet-Draft                NetworkNames                    March 2016
 
 
 
-Ghali, et al.          Expires September 10, 2016               [Page 4]
+Ghali, et al.            Expires January 8, 2017                [Page 4]
 
-Internet-Draft                NetworkNames                    March 2016
+Internet-Draft                NetworkNames                     July 2016
 
 
    an Interest stored in a PIT entry, a match is only said to occur if
@@ -277,9 +277,9 @@ Internet-Draft                NetworkNames                    March 2016
 
 
 
-Ghali, et al.          Expires September 10, 2016               [Page 5]
+Ghali, et al.            Expires January 8, 2017                [Page 5]
 
-Internet-Draft                NetworkNames                    March 2016
+Internet-Draft                NetworkNames                     July 2016
 
 
    haseh-based, as described above, name components will have fixed and
@@ -333,4 +333,4 @@ Authors' Addresses
 
 
 
-Ghali, et al.          Expires September 10, 2016               [Page 6]
+Ghali, et al.            Expires January 8, 2017                [Page 6]

@@ -51,35 +51,52 @@ normative:
 
 --- abstract
 
-We describe a scheme for "network names" in CCN and related ICN architectures.
-Network names are representations for standard application names that are based
-on hash functions. Their purpose is to reduce the network workload, enforce
-uniformly sized names, and remove plaintext names from the network layer.
+We describe a mapping between application-layer and network-layer name spaces in CCN.
+This mapping can be deterministically computed by consumers and producers,
+using application names formatted according to the standard CCN URI scheme. Meanwhile,
+consumers and producers can continue to use application-layer names. We detail the
+computation and mapping function requirements and discuss their
+impact on consumers, producers, and routers.
+<!---
+CESAR: the next sentence might go away.
+-->
+Finally, we
+comprehensively analyze several mapping functions to show their
+functional equivalence to standard application names and argue that
+they address several issues that stem from propagating application names into
+the network.
 
 --- middle
 
 # Introduction
 
-Names in CCN are hierarchical URIs formatted according to the CCNx URI naming scheme {{LCI}}.
-The names are carried verbatim in both Interests and Content Objects (with the exception
-of nameless objects) {{SEMANTICS}}. In this note, we make a case for a distinguished type of
-name in CCN wherein *application names* formatted according to {{LCI}} are transformed to
-*network names* that are carried in network packets. In this memo, we present the
-motivation for this new type of name and provide one transformation scheme to map
-application to network names. We also discuss the forwarder implications and necessary
-changes to the request and response matching algorithm.
+Every CCN interest contains a routable name,
+composed of one or more variable-length components that are opaque to the network
+\cite{mosko2015labeled}. The
+application expressiveness of names eliminates the need for name resolution services
+such as the Domain Name System (DNS) \cite{mockapetris1987domain}. A router uses
+names in conjunction with a Forwarding Information Base (FIB)
+to forward interests towards the nearest copy of the desired content.
+As in IP, the router data
+plane is responsible for searching the FIB using longest-prefix matching to identify the
+appropriate interfaces (if any) on which an interest should be forwarded.
+
 
 # Motivation
 
-Currently, the only utility CCN names in Interests afford to the network (i.e., forwarders)
-is to serve as a locator for the desired Content Object. The semantic meaning of a name,
-as decided by the application, is of no consequence to a forwarder. Names are opaque
-locators used to route Interests towards some authoritative source for the corresponding
-Content Objects. Names in Content Objects are only used to match against a PIT entry to
-forward the message to downstream forwarders. In summary, application semantics have
+Although the above design is simple, it has several undesirable consequences. First, it
+places non-deterministic computational burden on routers that must index the
+FIB to forward incoming interests. Modern high-speed FIB designs use data
+structures that range from hash tables \cite{so2013named} to prefix tries
+\cite{de1959file,brass2008advanced}. All of them must account for variable length
+names and name segments. Second, and perhaps more importantly, the current
+design forces application-layer semantics (i.e., names) down to the network ayer.
+In summary, application semantics have
 no use in the data plane of the network. Thus, the application representation of a name
 is not needed to enable messages to be correctly forwarded. We therefore seek an
 alternative representation that is more network-friendly.
+
+%%%HERE
 
 # Network Names
 
